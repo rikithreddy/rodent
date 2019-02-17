@@ -78,7 +78,7 @@ def make_video(folder):
     height, width, _ = first_pic.shape
 
     # magic below, might need to change the codec for your own webcam
-    fourcc = cv2.cv.CV_FOURCC(*'XVID')
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
     video = cv2.VideoWriter('output.avi', fourcc, fps, (width, height))
 
     for filename in filenames:
@@ -97,14 +97,13 @@ def motion_detection(camera, folder, until):
     utils.clear_directory(folder)
 
     # Need to get 2 images to start with
-    previous_image = cv2.cvtColor(camera.read()[1], cv2.cv.CV_RGB2GRAY)
-    current_image = cv2.cvtColor(camera.read()[1], cv2.cv.CV_RGB2GRAY)
+    previous_image = cv2.cvtColor(camera.read()[1], cv2.COLOR_RGB2GRAY)
+    current_image = cv2.cvtColor(camera.read()[1], cv2.COLOR_RGB2GRAY)
     purple = (140, 25, 71)
-
     while True:
         now = datetime.datetime.now()
         _, image = camera.read()
-        gray_image = cv2.cvtColor(image, cv2.cv.CV_RGB2GRAY)
+        gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
         difference1 = cv2.absdiff(previous_image, gray_image)
         difference2 = cv2.absdiff(current_image, gray_image)
@@ -137,7 +136,6 @@ if __name__ == "__main__":
     until = arguments['--until']
 
     camera = cv2.VideoCapture(0)
-    print(folder)
     utils.create_directory(folder)
 
     try:

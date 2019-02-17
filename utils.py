@@ -22,7 +22,7 @@ def save_image(image, folder, now):
     """
     filename = '%s/%s.jpg'
     filepath = filename % (folder, now)
-    cv2.imwrite(filepath, image, [cv2.cv.CV_IMWRITE_JPEG_QUALITY, 80])
+    cv2.imwrite(filepath, image, [cv2.IMWRITE_JPEG_QUALITY, 80])
 
 
 def time_over(until, now):
