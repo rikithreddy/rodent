@@ -2,6 +2,11 @@ import os
 import cv2
 
 
+def create_directory(folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+
 def clear_directory(folder):
     """
     Delete all the pics in the given folder

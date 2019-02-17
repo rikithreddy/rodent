@@ -137,6 +137,8 @@ if __name__ == "__main__":
     until = arguments['--until']
 
     camera = cv2.VideoCapture(0)
+    print(folder)
+    utils.create_directory(folder)
 
     try:
         if arguments['capture']:
