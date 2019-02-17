@@ -39,7 +39,7 @@ def start_camera(camera, folder, interval, until=None):
         now = datetime.datetime.now()
 
         number += 1
-        print 'Taking picture number %d at %s' % (number, now.isoformat())
+        print ('Taking picture number %d at %s' % (number, now.isoformat()))
         utils.save_image(image, folder, now)
 
         if utils.time_over(until, now):
@@ -57,21 +57,22 @@ def make_video(folder):
     """
     # Sorting on dates, ISO ftw
     filenames = sorted(os.listdir(folder))
-
+    number_files = len(filenames)
     # Completely arbitrary values, probably will need to fix that later
     # If the video is too fast or too slow, change the fps value manually
     fps = 2
-    if 20 <= len(filenames) <= 40:
+    if 20 <= number_files <= 40:
         fps = 4
-    elif 41 <= len(filenames) <= 200:
+    elif 41 <= number_files <= 200:
         fps = 10
-    elif 201 <= len(filenames) <= 500:
+    elif 201 <= number_files <= 500:
         fps = 20
-    elif len(filenames) > 500:
+    elif number_files > 500:
         fps = 40
 
     # Find out size of the pictures we're taking
-    first_pic = cv2.imread('%s/%s' % (folder, filenames[0]))
+    filepath = os.path.join(folder, filenames[0])
+    first_pic = cv2.imread( filepath )
 
     # shape gives a tuple (height, width, layer)
     height, width, _ = first_pic.shape
@@ -81,7 +82,8 @@ def make_video(folder):
     video = cv2.VideoWriter('output.avi', fourcc, fps, (width, height))
 
     for filename in filenames:
-        video.write(cv2.imread('%s/%s' % (folder, filename)))
+        filepath = os.path.join(folder, filename)
+        video.write(cv2.imread(filepath))
 
     video.release()
 
@@ -116,7 +118,7 @@ def motion_detection(camera, folder, until):
         low_point, high_point = utils.find_motion_boundaries(result.tolist())
         if low_point is not None and high_point is not None:
             cv2.rectangle(image, low_point, high_point, purple, 3)
-            print 'Motion detected ! Taking picture'
+            print ('Motion detected ! Taking picture')
             utils.save_image(image, folder, now)
 
         previous_image = current_image

@@ -1,5 +1,4 @@
 import os
-
 import cv2
 
 
@@ -7,8 +6,8 @@ def clear_directory(folder):
     """
     Delete all the pics in the given folder
     """
-    for filename in os.listdir(folder):
-        os.remove('%s/%s' % (folder, filename))
+    for file in os.listdir(folder):
+        os.remove(os.path.join(folder, filename))
 
 
 def save_image(image, folder, now):
@@ -20,10 +19,6 @@ def save_image(image, folder, now):
     filepath = filename % (folder, now)
     cv2.imwrite(filepath, image, [cv2.cv.CV_IMWRITE_JPEG_QUALITY, 80])
 
-    # Resave it with pillow to do a better compression
-    # img = Image.open(filepath)
-    # img.save(filepath, optimize=True, quality=80)
-
 
 def time_over(until, now):
     """
@@ -31,7 +26,7 @@ def time_over(until, now):
     Splits on every loop but it's not like it's a big
     performance drain.
     """
-    if until is None:
+    if not until:
         return False
 
     until_hour, until_minutes = until.split(':')
